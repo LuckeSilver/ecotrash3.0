@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "ecotrash",
+    "slug": "ecotrash",
+    "privacy": "public",
+    "sdkVersion": "35.0.0",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#21252d"
+    },
+
+    "ios": {
+      "bundleIdentifier": "com.LuckeDev.ecoTrash"
+    },
+    "android": {
+      "package": "com.LuckeDev.ecoTrash"
+    }
+   }
+ }

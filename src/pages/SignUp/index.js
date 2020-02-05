@@ -12,7 +12,9 @@ export default function SignIn({ navigation }) {
   const passwordRef = useRef();
   const confirmRef = useRef();
 
+  const [username, setUsername] = useState();
   const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
   function handleSubmit() {
     api.post("/Users", {
       email
@@ -25,6 +27,8 @@ export default function SignIn({ navigation }) {
       <Form>
         <Input icon="person-outline" placeholder="Seu nome" 
         returnKeyType="next"
+        value={username}
+        onChangeText={setUsername}
         onSubmitEditing={() => emailRef.current.focus()}
         />
         <Input
@@ -45,6 +49,8 @@ export default function SignIn({ navigation }) {
           secureTextEntry={true}
           ref={passwordRef}
           returnKeyType="next"
+          value={password}
+          onChangeText={setPassword}
           onSubmitEditing={() => confirmRef.current.focus()}
         />
         <Input

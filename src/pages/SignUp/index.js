@@ -15,8 +15,8 @@ export default function SignIn({ navigation }) {
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  function handleSubmit() {
-    api.post("/Users", {
+  async function handleSubmit() {
+    await api.post("/Users", {
       email
     }).then(() => console.log("deu bom!")).catch((error) => console.log(error));
   }
@@ -28,7 +28,7 @@ export default function SignIn({ navigation }) {
         <Input icon="person-outline" placeholder="Seu nome" 
         returnKeyType="next"
         value={username}
-        onChangeText={setUsername}
+        onChangeText={ text => setUsername(text)}
         onSubmitEditing={() => emailRef.current.focus()}
         />
         <Input
@@ -40,7 +40,7 @@ export default function SignIn({ navigation }) {
           ref={emailRef}
           returnKeyType="next"
           value={email}
-          onChangeText={setEmail}
+          onChangeText={text => setEmail(text)}
           onSubmitEditing={() => passwordRef.current.focus()}
         />
         <Input
@@ -50,7 +50,7 @@ export default function SignIn({ navigation }) {
           ref={passwordRef}
           returnKeyType="next"
           value={password}
-          onChangeText={setPassword}
+          onChangeText={text => setPassword(text)}
           onSubmitEditing={() => confirmRef.current.focus()}
         />
         <Input

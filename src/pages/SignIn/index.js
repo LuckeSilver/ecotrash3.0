@@ -1,17 +1,18 @@
-import React, { useRef } from "react";
-import { View, Text, Image } from "react-native";
+import React, { useRef, useState, useEffect } from "react";
+import { View, Text, Image, Keyboard } from "react-native";
+import api from "../../services/api";
+
 
 import {
   Container,
   Form,
   ViewButtons,
-  Title,
   MinnorButton,
   TxtButton,
   LongBtn,
   BtnImage
 } from "./styles";
-import logo from "../../assets/icon.png";
+import logo from "../../assets/logotest.png";
 import Input from "../../components/Input";
 import google from "../../assets/google.png";
 import facebook from "../../assets/facebook.png";
@@ -19,19 +20,49 @@ import facebook from "../../assets/facebook.png";
 export default function SignIn({ navigation }) {
   const passwordRef = useRef();
 
-  function handleSubmit() {}
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
 
+  const [keyboardShow, setKeyboardShow] = useState();
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardWillShow', () => setKeyboardShow(true));
+    Keyboard.addListener('keyboardWillHide', () => setKeyboardShow(false));
+
+    return () => {
+      Keyboard.removeAllListeners('keyboardWillShow', () => 
+      setKeyboardShow(true)
+      );
+      Keyboard.removeAllListeners('keyboardWillHide', () => 
+        setKeyboardShow(false)
+      );
+    }
+  })
+
+  async function handleSubmit() {
+    if (!email || !password) return;
+      
+      Keyboard.dismiss();
+    try {
+      const response = await signin(email, password);
+    } catch (err) {
+      alert('Houve um erro ao tentar realizar o login');
+    }
+  }
+  
   return (
     <Container>
       <Image style={{marginTop: "5%"}} source={logo} />
       <Form>
         <Input
-          icon="person-outline"
+          icon="mail-outline"
           autoCorrect={false}
-          placeholder="Digite seu usuário"
+          placeholder="Digite seu email"
           autoCompleteType="email"
           keyboardType="email-address"
           returnKeyType="next"
+          value={email}
+          onChangeText={ text => setEmail(text)}
           onSubmitEditing={() => passwordRef.current.focus()}
         />
         <Input
@@ -40,10 +71,12 @@ export default function SignIn({ navigation }) {
           secureTextEntry={true}
           ref={passwordRef}
           returnKeyType="send"
+          value={password}
+          onChangeText={text => setPassword(text)}
           onSubmitEditing={handleSubmit}
         />
         <ViewButtons>
-          <MinnorButton onPress={() => navigation.navigate("Map")}>
+          <MinnorButton onPress={handleSubmit}>
             <TxtButton>LOGIN</TxtButton>
           </MinnorButton>
           <MinnorButton
@@ -59,13 +92,13 @@ export default function SignIn({ navigation }) {
         </ViewButtons>
 
         <View>
-          <LongBtn onPress={() => navigation.navigate("Home")}>
+          <LongBtn onPress={() => navigation.navigate("Map")}>
             <BtnImage source={google} />
             <TxtButton style={{ color: "#21252D" }}>LOGIN WITH</TxtButton>
           </LongBtn>
           <LongBtn
             style={{ backgroundColor: "#3b5998", marginBottom: 100 }}
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.navigate("Map")}
           >
             <BtnImage source={facebook} />
             <TxtButton>LOGIN WITH</TxtButton>

@@ -1,7 +1,5 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { View, Text, Image, Keyboard } from "react-native";
-import api from "../../services/api";
-
 
 import {
   Container,
@@ -19,50 +17,33 @@ import facebook from "../../assets/facebook.png";
 
 export default function SignIn({ navigation }) {
   const passwordRef = useRef();
+  const userNameuser = "LuckeDev";
+  const userPassword = "0147598";
 
-  const [email, setEmail] = useState();
+  const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
-  const [keyboardShow, setKeyboardShow] = useState();
-
-  useEffect(() => {
-    Keyboard.addListener('keyboardWillShow', () => setKeyboardShow(true));
-    Keyboard.addListener('keyboardWillHide', () => setKeyboardShow(false));
-
-    return () => {
-      Keyboard.removeAllListeners('keyboardWillShow', () => 
-      setKeyboardShow(true)
-      );
-      Keyboard.removeAllListeners('keyboardWillHide', () => 
-        setKeyboardShow(false)
-      );
-    }
-  })
-
-  async function handleSubmit() {
-    if (!email || !password) return;
-      
-      Keyboard.dismiss();
-    try {
-      const response = await signin(email, password);
-    } catch (err) {
-      alert('Houve um erro ao tentar realizar o login');
+  function handleSubmit() {
+    if (username == null || password == null) {
+      alert("preencha os campos acima para realizar o login");
+    } else if (username === userNameuser && password === userPassword) {
+      navigation.navigate("Map");
+    } else {
+      alert("Usuário ou senha inválidos");
     }
   }
-  
+
   return (
     <Container>
-      <Image style={{marginTop: "5%"}} source={logo} />
+      <Image style={{ marginTop: "5%" }} source={logo} />
       <Form>
         <Input
-          icon="mail-outline"
+          icon="person-outline"
           autoCorrect={false}
-          placeholder="Digite seu email"
-          autoCompleteType="email"
-          keyboardType="email-address"
+          placeholder="Digite seu username"
           returnKeyType="next"
-          value={email}
-          onChangeText={ text => setEmail(text)}
+          value={username}
+          onChangeText={text => setUsername(text)}
           onSubmitEditing={() => passwordRef.current.focus()}
         />
         <Input
